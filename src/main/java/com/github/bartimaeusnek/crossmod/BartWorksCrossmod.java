@@ -22,6 +22,7 @@
 
 package com.github.bartimaeusnek.crossmod;
 
+import com.github.bartimaeusnek.bartworks.common.commands.ChangeConfig;
 import com.github.bartimaeusnek.bartworks.common.commands.SummonRuin;
 import com.github.bartimaeusnek.crossmod.GTpp.loader.RadioHatchCompat;
 import com.github.bartimaeusnek.crossmod.galacticraft.GalacticraftProxy;
@@ -48,14 +49,15 @@ import java.io.StringReader;
                 + "after:GalacticraftCore; "
                 + "after:Micdoodlecore; "
                 + "after:miscutils;"
+                + "after:EMT;"
 )
 public class BartWorksCrossmod {
     public static final String NAME = "BartWorks Mod Additions";
     public static final String VERSION = "0.0.1";
     public static final String MOD_ID = "bartworkscrossmod";
-    public static final Logger LOGGER = LogManager.getLogger(NAME);
+    public static final Logger LOGGER = LogManager.getLogger(BartWorksCrossmod.NAME);
 
-    @Mod.Instance(MOD_ID)
+    @Mod.Instance(BartWorksCrossmod.MOD_ID)
     public static BartWorksCrossmod instance;
 
     @Mod.EventHandler
@@ -87,9 +89,23 @@ public class BartWorksCrossmod {
 //        }
 //    }
 
+
+//    @Mod.EventHandler
+//    public void onServerStarted(FMLServerStartedEvent event) {
+//        if (Loader.isModLoaded("EMT")){
+//            try {
+//                TCRecipeHandler.init();
+//            } catch (IllegalAccessException | InvocationTargetException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
+//    }
+
     @Mod.EventHandler
     public void onFMLServerStart(FMLServerStartingEvent event) {
         event.registerServerCommand(new SummonRuin());
+        event.registerServerCommand(new ChangeConfig());
         if (Loader.isModLoaded("miscutils"))
             for (Object s : RadioHatchCompat.TranslateSet){
                 StringTranslate.inject(new ReaderInputStream(new StringReader((String) s)));
